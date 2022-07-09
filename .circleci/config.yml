@@ -139,11 +139,11 @@ jobs:
       - image: cimg/base:stable
     steps:
       - checkout
-      #- install_awscli 
-      - run:
-          name: Yum install -y tar gzip
-          command: |
-           install_awscli
+      - install_awscli 
+      # - run:
+      #     name: Yum install -y tar gzip
+      #     command: |
+      #      Yum install tar gzip
             
 
       - run:
