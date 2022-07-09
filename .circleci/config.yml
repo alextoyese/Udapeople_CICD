@@ -144,8 +144,6 @@ jobs:
       #     name: Yum install -y tar gzip
       #     command: |
       #      Yum install tar gzip
-            
-
       - run:
           name: Ensure back-end infrastructure exists
           command: |
