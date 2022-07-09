@@ -139,11 +139,11 @@ jobs:
       - image: cimg/base:stable
     steps:
       - checkout
-      #- install_awscli 
+      - install_awscli 
       - run:
-          #name: Install dependencies
-          command: |
-            sudo install -y tar gzip
+          name: Yum install -y tar gzip
+          command:
+            
 
       - run:
           name: Ensure back-end infrastructure exists
