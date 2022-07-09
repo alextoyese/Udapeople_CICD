@@ -137,7 +137,11 @@ jobs:
   deploy-infrastructure:
 
 
-    executor: aws
+    executor:
+
+    aws:
+    docker:
+      - image: amazon/aws-cli
     steps:
       - checkout
       - run:
