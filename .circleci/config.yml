@@ -1,17 +1,19 @@
 version: 2.1
 
-#commands:
-  # destroy-environment:
-  #   description: Destroy back-end and front-end cloudformation stacks given a workflow ID.
-  #   parameters:
-  #     # Add parameter here   
-  #   steps:
-  #     - run:
-  #         name: Destroy environments
-  #         when: on_fail
-  #         command: |
-  #           # Your code here
-  #           exit 1
+# commands:
+#   destroy-environment:
+#     description: Destroy back-end and front-end cloudformation stacks given a workflow ID.
+#     parameters:
+#       WorkflowID:
+#         type:string
+#           default: ${CIRCLE_WORKFLOW_ID:0:7}  
+#     steps:
+#       - run:
+#           name: Destroy environments
+#           when: on_fail
+#           command: |
+         
+            
 
   # revert-migrations:
   #   description: Revert the last migration if successfully run in the current workflow.
@@ -147,11 +149,7 @@ jobs:
       - run:
           name: Install dependencies
           command: yum install -y tar gzip
-    # docker:
-    #   - image: cimg/base:stable
-    # steps:
-    #   - checkout
-    #   - install_awscli 
+   
       
       - run:
           name: Ensure back-end infrastructure exists
