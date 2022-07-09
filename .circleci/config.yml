@@ -138,11 +138,11 @@ jobs:
     docker:
       - image: cimg/base:stable
     steps:
-      - Checkout
-      - install_awscli 
-      # - run:
-      #     name: Install dependencies
-      #     command: yum install -y tar gzip
+      - checkout
+      #- install_awscli 
+      - run:
+          name: Install dependencies
+          command: yum install -y tar gzip
 
       - run:
           name: Ensure back-end infrastructure exists
