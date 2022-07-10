@@ -288,11 +288,8 @@ jobs:
       - checkout
       - restore_cache:
           keys: [frontend-deps]
-      - run:
-          name: Install dependencies
-          command: |
-            cd frontend
-            yum install -y tar gzip
+      - run: yum install -y tar gzip
+
       - run:
           name: Get backend url
           command: |
