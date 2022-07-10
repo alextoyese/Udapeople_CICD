@@ -35,19 +35,7 @@ commands:
             sudo npm install --global n
             sudo n 13.8.0
 
-  install-frontend-dependencies:
-   docker:
-      - image: circleci/node:13.8.0
-   steps:
-      - checkout
-      - run:
-          name: npm install
-          working_directory: ./frontend
-          command: ls -la && npm install
-      - persist_to_workspace:
-          root: .
-          paths:
-            - frontend/node_modules
+  
 
   destroy-environment:
     description: Destroy back-end and front-end cloudformation stacks given a workflow ID.
