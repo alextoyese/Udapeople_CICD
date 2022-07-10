@@ -302,11 +302,11 @@ jobs:
       #- install_nodejs
       - restore_cache:
           keys: [frontend-deps]
-      - run:
-          name: Install dependencies
-          command: |
-            cd frontend
-            ls -la && npm install
+      # - run:
+      #     name: Install dependencies
+      #     command: |
+      #       cd frontend
+      #       ls -la && npm install
       - run:
           name: Get backend url
           command: |
@@ -392,9 +392,9 @@ jobs:
             FRONTEND_WEBSITE=http://udapeople-${CIRCLE_WORKFLOW_ID:0:7}.s3-website.${AWS_DEFAULT_REGION}.amazonaws.com
             if curl -s $FRONTEND_WEBSITE | grep "Welcome"
             then
-              exit 1
+              exit 0
             else
-              exit 2
+              exit 1
             fi
       - destroy-environment
       - revert-migrations
