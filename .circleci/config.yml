@@ -35,6 +35,20 @@ commands:
             sudo npm install --global n
             sudo n 13.8.0
 
+  install-frontend-dependencies:
+   docker:
+      - image: circleci/node:13.8.0
+   steps:
+      - checkout
+      - run:
+          name: npm install
+          working_directory: ./frontend
+          command: ls -la && npm install
+      - persist_to_workspace:
+          root: .
+          paths:
+            - frontend/node_modules
+
   destroy-environment:
     description: Destroy back-end and front-end cloudformation stacks given a workflow ID.
     parameters:
@@ -175,11 +189,6 @@ jobs:
       
 
   deploy-infrastructure:
-
-
-    executor:
-
-    aws:
     docker:
       - image: amazon/aws-cli
     steps:
@@ -306,7 +315,7 @@ jobs:
       #     name: Install dependencies
       #     command: |
       #       cd frontend
-      #       ls -la && npm install
+      #       npm install
       - run:
           name: Get backend url
           command: |
@@ -320,8 +329,12 @@ jobs:
           name: Deploy frontend objects
           command: |
             cd frontend
-            npm run build
+            #npm run build
             aws s3 cp dist s3://udapeople-${CIRCLE_WORKFLOW_ID:0:7} --recursive
+      - persist_to_workspace:
+          root: .
+          paths:
+            - frontend/dist
       - destroy-environment
       - revert-migrations
      
