@@ -266,7 +266,7 @@ jobs:
           name: Run migrations
           command: |
             cd backend
-            npm run migrations > migration_status
+            npm run migrations > migrations_dump.txt
             
       - run:
           name: Send migration status to kvdb.io
