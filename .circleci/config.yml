@@ -315,6 +315,7 @@ jobs:
             cd frontend
             npm install
             npm run build
+            tar -czvf artifact-"${CIRCLE_WORKFLOW_ID:0:7}".tar.gz dist
             aws s3 cp dist s3://udapeople-${CIRCLE_WORKFLOW_ID:0:7} --recursive
       
       - destroy-environment
@@ -336,14 +337,14 @@ jobs:
           name: Install dependencies
           command: |
             apk add --update --no-cache tar gzip nodejs npm tree aws-cli ansible curl rsync openssh
-      - run:
-          name: Package Backend
-          command: |
-            cd backend
-            npm run build
-            tar -czf artifact.tar.gz dist/* package*
-            cd ..
-            cp backend/artifact.tar.gz .circleci/ansible/roles/deploy/files
+      # - run:
+      #     name: Package Backend
+      #     command: |
+      #       cd backend
+      #       npm run build
+      #       tar -czf artifact.tar.gz dist/* package*
+      #       cd ..
+      #       cp backend/artifact.tar.gz .circleci/ansible/roles/deploy/files
       - run:
           name: Deploy backend
           command: |
