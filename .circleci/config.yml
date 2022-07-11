@@ -256,10 +256,13 @@ jobs:
 
   run-migrations:
     docker:
-      - image: circleci/node:13.8.0
+      - image: python:3.10-alpine3.16
     steps:
       - checkout
-      - install_awscli
+      - run:
+          name: Install deps
+          command: |
+            apk add --update --no-cache tar gzip nodejs npm aws-cli curl
       - restore_cache:
           keys: [backend-build]
       - run:
@@ -267,7 +270,9 @@ jobs:
           command: |
             cd backend
             npm install
-            npm run migrations > migrations_dump.txt
+            npm run build
+            npm run migrations >> migrations_dump.txt
+            cat migrations_dump.txt
               
       - run:
           name: Send migration status to kvdb.io
