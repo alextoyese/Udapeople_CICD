@@ -260,7 +260,7 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Install deps
+          name: Install dependences
           command: |
             apk add --update --no-cache tar gzip nodejs npm aws-cli curl
       - restore_cache:
