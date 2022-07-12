@@ -218,8 +218,7 @@ jobs:
           root: .
           paths:
             - .circleci/ansible/inventory.txt
-          
-
+  
       - destroy-environment      
 
   configure-infrastructure:
@@ -239,13 +238,14 @@ jobs:
             apk add --update ansible
             pip install awscli
             aws --version
-            
+      - run:
+          name: View content of inventory.txt
+          command: cat .circleci/ansible/inventory.txt      
       - run:
           name: Configure server
           command: |
             cd .circleci/ansible 
-            ansible-playbook -i inventory configure-server.yml
-            # save backend back to workspace
+            ansible-playbook -i inventory.txt configure-server.yml
       - persist_to_workspace:
           root: ~/
           paths:
@@ -296,7 +296,7 @@ jobs:
     steps:
       - checkout
       - attach_workspace:
-          at: ~/
+          at: ~/.circleci/ansible/inventory.txt
       - run:
           name: Install dependencies
           command: |
@@ -332,8 +332,12 @@ jobs:
           fingerprints: ["f8:dc:ac:a5:2e:79:19:e8:9d:c2:4a:ad:37:17:bb:fc"]
       - attach_workspace:
           at: .
-      - restore_cache:
-          keys: [backend-build]
+
+      - run:
+          name: View content of inventory.txt
+          command: cat .circleci/ansible/inventory.txt
+      # - restore_cache:
+      #     keys: [backend-build]
       - run:
           name: Install dependencies
           command: |
@@ -353,23 +357,25 @@ jobs:
             export TYPEORM_ENTITIES=./modules/domain/**/*.entity{.ts,.js}
             export TYPEORM_MIGRATIONS=./migrations/*.ts
             cd .circleci/ansible
-            cat inventory
-            ansible-playbook -i inventory.txt deploy-backend.yml
+            echo "Contents  of the inventory.txt file is -------"
+            cat inventory.txt
+            ansible-playbook -i inventory.txt deploy-backend.yml -vv
 
       - destroy-environment
       - revert-migrations
 
   smoke-test:
     docker:
-      - image: python:3.9.0-alpine
+      - image: python:3.7-alpine3.11
     steps:
       - checkout
+      - attach_workspace:
+          at: ~/.circleci/ansible/inventory.txt
       - run:
           name: Install dependencies
           command: |
             apk add --update --no-cache curl aws-cli tar gzip nodejs npm
-      - attach_workspace:
-          at: ~/  
+     
       - run:
           name: Backend smoke test.
           command: |
