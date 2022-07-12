@@ -326,7 +326,6 @@ jobs:
           fingerprints: ["f8:dc:ac:a5:2e:79:19:e8:9d:c2:4a:ad:37:17:bb:fc"]
       - attach_workspace:
           at: .
-
       - run:
           name: View content of inventory.txt
           command: cat .circleci/ansible/inventory.txt
