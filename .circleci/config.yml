@@ -229,7 +229,7 @@ jobs:
       - run:
           name: Install dependencies
           command: |
-            # Install dependencies needed for your playbook
+          
             apk add --update ansible
             pip install awscli
             aws --version
@@ -237,7 +237,8 @@ jobs:
           name: Configure server
           command: |
             cd .circleci/ansible
-            ansible-playbook -i inventory.txt configure-server.yml
+            cat inventory.txt
+            sudo ansible-playbook -i inventory.txt configure-server.yml
       - destroy-environment
             
             
