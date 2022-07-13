@@ -184,7 +184,7 @@ jobs:
           name: Install dependencies
           command: yum install -y tar gzip
    
-     - run:
+      - run:
           name: Ensure back-end infrastructure exists
           command: |
             aws cloudformation deploy \
@@ -221,8 +221,7 @@ jobs:
 
       # destroy 
 
-    
-
+  
   configure-infrastructure:
     docker:
       - image: python:3.7-alpine3.11
@@ -248,7 +247,7 @@ jobs:
           command: |
             cd .circleci/ansible
             ansible-playbook -i inventory.txt configure-server.yml
-            
+
       - destroy-environment
             
             
