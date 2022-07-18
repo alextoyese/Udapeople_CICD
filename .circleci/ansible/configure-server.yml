@@ -1,6 +1,6 @@
 ---
 
-- name: "Comfigure udapeople infrastructure." 
+- name: "configuration play." 
   hosts: web
   user: ubuntu
   become: true
