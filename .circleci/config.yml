@@ -310,25 +310,16 @@ jobs:
                     
   deploy-backend:
     docker:
-      - image: python:3.7-alpine3.11
+      - image: cimg/base:stable
     steps:
       - checkout
       - add_ssh_keys:
           fingerprints: ["f8:dc:ac:a5:2e:79:19:e8:9d:c2:4a:ad:37:17:bb:fc"]
       - attach_workspace:
-          at: .
-      - run:
-          name: View content of inventory.txt
-          command: cat .circleci/ansible/inventory.txt
-      # - restore_cache:
-      #     keys: [backend-build]
-      - run:
-          name: Install dependencies
-          command: |
-            apk add --update ansible curl rsync openssh nodejs npm
-            ansible --version
-            pip install awscli
-            aws --version
+          at: ~/
+      - install_nodejs
+      - install_awscli
+      - install_ansible
       - run:
           name: Deploy backend
           command: |
@@ -336,11 +327,16 @@ jobs:
             npm i
             npm run build
             cd ..
-            tar -C backend -czvf artifact.tar.gz .
             cd .circleci/ansible
+            mkdir files
+            cd files
+            tar -C ../../../backend -czvf artifact.tar.gz .
+            cd ../
+            
             echo "Contents  of the inventory.txt file is -------"
             cat inventory.txt
-            ansible-playbook -i inventory.txt deploy-backend.yml -vv
+            ansible-playbook -i inventory.txt deploy-backend.yml
+
 
       - destroy-environment
       - revert-migrations
