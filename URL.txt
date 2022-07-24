@@ -1,2 +1,2 @@
 URL1: https://github.com/alextoyese/Udapeople_CICD.git
-URL2: http://udapeople-490dd2c.s3-website-us-east-1.amazonaws.com
+URL2: http://udapeople-d441196.s3-website-us-east-1.amazonaws.com
